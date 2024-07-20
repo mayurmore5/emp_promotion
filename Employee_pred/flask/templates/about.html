@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+      background-color: #2a1447;
+      padding: 20px;
+      font-size: 17PX;
+      text-align: right;
+      animation: navbarFadeIn 1s ease-in-out;
+    }
+
+    @keyframes navbarFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    nav a {
+      color: rgb(206, 220, 217);
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    nav a:hover {
+      background-color: #0077b6;
+    }
+    .name{
+        color: rgb(67, 231, 222);
+        margin-right: 500px;
+        text-align:left;
+        font-size: 25px;
+    }
+
+.about-section {
+    color: antiquewhite;
+  padding: 20px;
+  background-image: linear-gradient(to right, #324c70, #4a00e0);
+    padding: 4rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.about-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.about-section p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.about-section ul {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  list-style-type: disc;
+  margin-left: 40px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+img{
+    height:400px ;
+    width:600px
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <span class="name">
+        Employee Promotion Predection
+    </span>
+    <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('submit') }}">Submit</a>
+            <a href="{{ url_for('predict') }}">Predict</a>
+      </nav>
+      <div class="about-section">
+        <h2>About the Employee Promotion Prediction Model</h2>
+        <p>This project aims to predict the likelihood of an employee being promoted based on various factors, such as their department, region, education, gender, recruitment channel, training, age, previous year's rating, length of service, KPIs met, awards won, and average training score.</p>
+        <img src="{{ url_for('static', filename='analysis.png') }}" alt="Model Analysis" class="pic">
+
+        <p>The model was developed using machine learning techniques and trained on a dataset of employee records. The key analysis and findings are as follows:</p>
+        <ul>
+          <li>Factors like previous year's rating, length of service, and average training score have the strongest correlation with promotion.</li>
+          <li>Employees in the Sales & Marketing department and those who received more awards are more likely to be promoted.</li>
+          <li>Gender and education level do not significantly impact the promotion probability.</li>
+          <li>The XGBoost classifier model performed the best, achieving an accuracy of 94.1%, which is the highest among the models evaluated.</li>
+          <li>The XGBoost model also had the highest precision, recall, and F1-score, indicating its strong performance in accurately predicting employee promotions.</li>
+        </ul>
+        <p>The model provides insights into the key drivers of employee promotion and can be used to identify high-potential employees and implement targeted development programs.</p>
+      </div>
+</body>
+</html>

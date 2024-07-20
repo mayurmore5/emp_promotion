@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://static.vecteezy.com/system/resources/previews/013/286/213/non_2x/goals-achievement-and-business-success-human-improvement-personal-growth-and-challenge-rises-up-stairs-to-target-checklist-and-step-of-arrow-with-wooden-figure-human-ladder-up-to-goal-flag-photo.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #000000;
+        }
+        nav {
+            background-color: rgba(42, 20, 71, 0.8);
+            padding: 20px;
+            font-size: 17px;
+            text-align: right;
+            animation: navbarFadeIn 1s ease-in-out;
+        }
+
+        @keyframes navbarFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav a {
+            color: rgb(206, 220, 217);
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        nav a:hover {
+            background-color: #0077b6;
+        }
+
+        .name {
+            color: rgb(208, 210, 210);
+            margin-right: 500px;
+            text-align: left;
+            font-size: 25px;
+        }
+
+        .container {
+            padding: 20px;
+            text-align: center;
+            color:rgb(1, 1, 1);
+            background-color: rgba(90, 6, 100, 0.8);
+            margin: 50px auto;
+            border-radius: 10px;
+            width: 50%;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <span class="name">
+            Employee Promotion Prediction
+        </span>
+        <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('submit') }}">Submit</a>
+            <a href="{{ url_for('predict') }}">Predict</a>
+    </nav>
+  
+    <div class="container">
+        <h1>Prediction Results</h1>
+        <p>Your prediction results will be displayed here.</p>
+        <center>
+            <p style="color:black"> <b> {{data}} </b> </p>
+            </center>
+    </div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promotion Prediction</title>
+  <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}"> 
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #2a1447;
+      padding: 20px;
+      font-size: 17px;
+      text-align: right;
+      animation: navbarFadeIn 1s ease-in-out;
+    }
+
+    @keyframes navbarFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    nav a {
+      color: rgb(206, 220, 217);
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    nav a:hover {
+      background-color: #0077b6;
+    }
+    .name{
+      color: rgb(67, 231, 222);
+      margin-right: 500px;
+      text-align: left;
+      font-size: 25px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type=text], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="name">
+      Employee Promotion Prediction
+    </span>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('submit') }}">Submit</a>
+    <a href="{{ url_for('predict') }}">Predict</a>
+  </nav>
+
+  <div class="container">
+    <form method="post" action="/datas">
+      <label for="dept">Enter department:</label>
+      <select name="dept" id="dept">
+        <option value="Sales & Marketing">Sales & Marketing</option> 
+        <option value="Operations">Operations</option>
+        <option value="Technology">Technology</option> 
+        <option value="Analytics">Analytics</option>
+        <option value="R&D">R&D</option>
+        <option value="Procurement">Procurement</option>
+        <option value="Finance">Finance</option>
+        <option value="HR">HR</option>
+        <option value="Legal">Legal</option>  
+      </select>
+      
+      <label for="not">Enter No. of trainings:</label>
+      <input type="text" id="not" name="not">
+      
+      <label for="pyr">Enter Previous year rating:</label>
+      <input type="text" id="pyr" name="pyr">
+      
+      <label for="los">Enter length of service:</label>
+      <input type="text" id="los" name="los">
+      
+      <label for="kpi">Enter KPIs met >80%:</label>
+      <input type="text" id="kpi" name="kpi">
+      
+      <label for="aw">Enter Awards won?:</label>
+      <input type="text" id="aw" name="aw">
+      
+      <label for="ats">Enter Average training score:</label>
+      <input type="text" id="ats" name="ats">
+      
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

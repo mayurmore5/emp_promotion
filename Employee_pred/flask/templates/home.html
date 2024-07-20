@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Learning Landing Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+
+    header {
+        background-image: linear-gradient(to right, #8e2de2, #4a00e0);
+    padding: 4rem 2rem;
+    text-align: center;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      animation: headerFadeIn 1s ease-in-out;
+    }
+
+    @keyframes headerFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 1.2rem;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .cta-button:hover {
+      background-color: #3e8e41;
+    }
+
+    .features {
+        background-image: linear-gradient(to right, #8e2de2, #4a00e0);
+    padding: 4rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .feature-card {
+      width: 300px;
+      background-color: rgb(210, 222, 129);
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin: 20px;
+      text-align: center;
+      animation: cardFadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes cardFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .feature-card i {
+      font-size: 40px;
+      margin-bottom: 10px;
+      color: #1e90ff;
+    }
+
+    .feature-card h3 {
+      margin-top: 0;
+    }
+
+    .feature-card p {
+      color: #666;
+    }
+    nav {
+      background-color: #2a1447;
+      padding: 20px;
+      font-size: 17PX;
+      text-align: right;
+      animation: navbarFadeIn 1s ease-in-out;
+    }
+
+    @keyframes navbarFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    nav a {
+      color: rgb(206, 220, 217);
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    nav a:hover {
+      background-color: #0077b6;
+    }
+    .name{
+        color: rgb(67, 231, 222);
+        margin-right: 500px;
+        text-align:left;
+        font-size: 25px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <span class="name">
+        Employee Promotion Predection
+    </span>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('submit') }}">Submit</a>
+    <a href="{{ url_for('predict') }}">Predict</a>
+      </nav>
+  <header>
+
+    <h1>Welcome to our Machine Learning Platform</h1>
+    <p>Unlock the power of AI and data-driven insights.</p>
+    <a href="predict.html" class="cta-button">Get Started</a>
+  </header>
+
+  <div class="features">
+    <div class="feature-card">
+      <i class="fas fa-chart-line"></i>
+      <h3>Predictive Analytics</h3>
+      <p>Leverage machine learning to make accurate predictions and gain valuable insights.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-cogs"></i>
+      <h3>Automated Workflows</h3>
+      <p>Streamline your processes with intelligent automation and data-driven decision-making.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-graduation-cap"></i>
+      <h3>Continuous Learning</h3>
+      <p>Stay ahead of the curve with our platform's ability to adapt and learn over time.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-shield-alt"></i>
+      <h3>Robust Security</h3>
+      <p>Protect your data and ensure privacy with our advanced security measures.</p>
+    </div>
+    <div class="feature-card">
+        <i class="fas fa-comments"></i>
+        <h3>Conversational AI</h3>
+        <p>Engage with your customers through natural language interactions and intelligent chatbots.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-area-chart"></i>
+        <h3>Actionable Insights</h3>
+        <p>Gain valuable insights from your data and make informed, data-driven decisions.</p>
+      </div>
+</body> 
+</html>
