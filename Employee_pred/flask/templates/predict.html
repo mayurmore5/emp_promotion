@@ -1,154 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Promotion Prediction</title>
-  <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}"> 
+{% extends 'base.html' %}
+{% block title %}AI Prediction Engine • PromoPredict Pro{% endblock %}
+{% block content %}
+  <section class="section">
+    <h1 class="section-title">
+      <i class="fas fa-magic"></i> 
+      AI Promotion Prediction Engine
+    </h1>
+    <p style="text-align: center; color: #666; margin-bottom: 2rem; font-size: 1.1rem;">
+      Enter employee data below to get an AI-powered prediction of promotion eligibility
+    </p>
+    
+    <form class="card" method="post" action="{{ url_for('predict') }}">
+      <div class="form-field">
+        <label for="dept">
+          <i class="fas fa-building"></i> Department
+        </label>
+        <select name="dept" id="dept" required>
+          <option value="">Select Department</option>
+          <option value="Sales & Marketing">Sales & Marketing</option>
+          <option value="Operations">Operations</option>
+          <option value="Technology">Technology</option>
+          <option value="Analytics">Analytics</option>
+          <option value="R&D">R&D</option>
+          <option value="Procurement">Procurement</option>
+          <option value="Finance">Finance</option>
+          <option value="HR">HR</option>
+          <option value="Legal">Legal</option>
+        </select>
+      </div>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
-    nav {
-      background-color: #2a1447;
-      padding: 20px;
-      font-size: 17px;
-      text-align: right;
-      animation: navbarFadeIn 1s ease-in-out;
-    }
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="not">
+            <i class="fas fa-graduation-cap"></i> Number of Trainings
+          </label>
+          <input type="number" id="not" name="not" min="0" step="1" required 
+                 placeholder="e.g., 5">
+          <small style="color: #666; font-size: 0.85rem;">Total training programs completed</small>
+        </div>
 
-    @keyframes navbarFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        <div class="form-field">
+          <label for="pyr">
+            <i class="fas fa-star"></i> Previous Year Rating
+          </label>
+          <input type="number" id="pyr" name="pyr" min="1" max="5" step="0.1" required 
+                 placeholder="1.0 - 5.0">
+          <small style="color: #666; font-size: 0.85rem;">Performance rating from last year</small>
+        </div>
 
-    nav a {
-      color: rgb(206, 220, 217);
-      text-decoration: none;
-      padding: 10px 20px;
-      margin: 0 10px;
-      transition: background-color 0.3s ease-in-out;
-    }
+        <div class="form-field">
+          <label for="los">
+            <i class="fas fa-clock"></i> Length of Service (Years)
+          </label>
+          <input type="number" id="los" name="los" min="0" step="1" required 
+                 placeholder="e.g., 3">
+          <small style="color: #666; font-size: 0.85rem;">Years with the company</small>
+        </div>
 
-    nav a:hover {
-      background-color: #0077b6;
-    }
-    .name{
-      color: rgb(67, 231, 222);
-      margin-right: 500px;
-      text-align: left;
-      font-size: 25px;
-    }
+        <div class="form-field">
+          <label for="kpi">
+            <i class="fas fa-target"></i> KPIs Met > 80%
+          </label>
+          <select id="kpi" name="kpi" required>
+            <option value="">Select Option</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+          <small style="color: #666; font-size: 0.85rem;">Did employee meet 80%+ of KPIs?</small>
+        </div>
 
-    .container {
-      width: 100%;
-      max-width: 600px;
-      margin: 20px auto;
-      padding: 20px;
-    }
+        <div class="form-field">
+          <label for="aw">
+            <i class="fas fa-trophy"></i> Awards Won
+          </label>
+          <select id="aw" name="aw" required>
+            <option value="">Select Option</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+          <small style="color: #666; font-size: 0.85rem;">Has employee received awards?</small>
+        </div>
 
-    form {
-      background-color: white;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+        <div class="form-field">
+          <label for="ats">
+            <i class="fas fa-chart-line"></i> Average Training Score
+          </label>
+          <input type="number" id="ats" name="ats" min="0" max="100" step="0.1" required 
+                 placeholder="0 - 100">
+          <small style="color: #666; font-size: 0.85rem;">Average score across all training programs</small>
+        </div>
+      </div>
 
-    label {
-      font-weight: bold;
-    }
-
-    input[type=text], select {
-      width: 100%;
-      padding: 12px 20px;
-      margin: 8px 0;
-      display: block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    #result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <nav>
-    <span class="name">
-      Employee Promotion Prediction
-    </span>
-    <a href="{{ url_for('home') }}">Home</a>
-    <a href="{{ url_for('about') }}">About</a>
-    <a href="{{ url_for('submit') }}">Submit</a>
-    <a href="{{ url_for('predict') }}">Predict</a>
-  </nav>
-
-  <div class="container">
-    <form method="post" action="/datas">
-      <label for="dept">Enter department:</label>
-      <select name="dept" id="dept">
-        <option value="Sales & Marketing">Sales & Marketing</option> 
-        <option value="Operations">Operations</option>
-        <option value="Technology">Technology</option> 
-        <option value="Analytics">Analytics</option>
-        <option value="R&D">R&D</option>
-        <option value="Procurement">Procurement</option>
-        <option value="Finance">Finance</option>
-        <option value="HR">HR</option>
-        <option value="Legal">Legal</option>  
-      </select>
-      
-      <label for="not">Enter No. of trainings:</label>
-      <input type="text" id="not" name="not">
-      
-      <label for="pyr">Enter Previous year rating:</label>
-      <input type="text" id="pyr" name="pyr">
-      
-      <label for="los">Enter length of service:</label>
-      <input type="text" id="los" name="los">
-      
-      <label for="kpi">Enter KPIs met >80%:</label>
-      <input type="text" id="kpi" name="kpi">
-      
-      <label for="aw">Enter Awards won?:</label>
-      <input type="text" id="aw" name="aw">
-      
-      <label for="ats">Enter Average training score:</label>
-      <input type="text" id="ats" name="ats">
-      
-      <button type="submit">Submit</button>
+      <div style="text-align: center; margin-top: 2rem;">
+        <button type="submit" class="btn-primary" style="font-size: 1.1rem; padding: 1.2rem 3rem;">
+          <i class="fas fa-brain"></i> Generate AI Prediction
+        </button>
+      </div>
     </form>
-  </div>
-</body>
-</html>
+
+    <div class="card" style="margin-top: 2rem; background: rgba(102, 126, 234, 0.05); border: 1px solid rgba(102, 126, 234, 0.2);">
+      <h3 style="color: #667eea; margin-bottom: 1rem;">
+        <i class="fas fa-info-circle"></i> How It Works
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div>
+          <strong>1. Data Input</strong>
+          <p style="font-size: 0.9rem; color: #666;">Enter employee performance metrics</p>
+        </div>
+        <div>
+          <strong>2. AI Analysis</strong>
+          <p style="font-size: 0.9rem; color: #666;">Our ML model analyzes patterns</p>
+        </div>
+        <div>
+          <strong>3. Prediction</strong>
+          <p style="font-size: 0.9rem; color: #666;">Get instant promotion likelihood</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

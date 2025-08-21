@@ -1,0 +1,20 @@
+{
+  "model_name": "Random Forest",
+  "accuracy": 0.8948942959712805,
+  "feature_names": [
+    "department",
+    "no_of_trainings",
+    "previous_year_rating",
+    "length_of_service",
+    "KPIs_met >80%",
+    "awards_won?",
+    "avg_training_score"
+  ],
+  "training_date": "2025-08-21 10:02:22",
+  "dataset_shape": [
+    80224,
+    7
+  ],
+  "cv_mean_accuracy": 0.8878514926892771,
+  "cv_std_accuracy": 0.0017298805356705381
+}

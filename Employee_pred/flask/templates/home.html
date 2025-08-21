@@ -1,193 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Machine Learning Landing Page</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f0f0;
-    }
-
-    header {
-        background-image: linear-gradient(to right, #8e2de2, #4a00e0);
-    padding: 4rem 2rem;
-    text-align: center;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      animation: headerFadeIn 1s ease-in-out;
-    }
-
-    @keyframes headerFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-    }
-
-    .cta-button {
-      display: inline-block;
-      background-color: #4CAF50;
-      color: white;
-      padding: 12px 24px;
-      text-decoration: none;
-      border-radius: 4px;
-      font-size: 1.2rem;
-      transition: background-color 0.3s ease-in-out;
-    }
-
-    .cta-button:hover {
-      background-color: #3e8e41;
-    }
-
-    .features {
-        background-image: linear-gradient(to right, #8e2de2, #4a00e0);
-    padding: 4rem 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 40px;
-    }
-
-    .feature-card {
-      width: 300px;
-      background-color: rgb(210, 222, 129);
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin: 20px;
-      text-align: center;
-      animation: cardFadeIn 0.5s ease-in-out;
-    }
-
-    @keyframes cardFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .feature-card i {
-      font-size: 40px;
-      margin-bottom: 10px;
-      color: #1e90ff;
-    }
-
-    .feature-card h3 {
-      margin-top: 0;
-    }
-
-    .feature-card p {
-      color: #666;
-    }
-    nav {
-      background-color: #2a1447;
-      padding: 20px;
-      font-size: 17PX;
-      text-align: right;
-      animation: navbarFadeIn 1s ease-in-out;
-    }
-
-    @keyframes navbarFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    nav a {
-      color: rgb(206, 220, 217);
-      text-decoration: none;
-      padding: 10px 20px;
-      margin: 0 10px;
-      transition: background-color 0.3s ease-in-out;
-    }
-
-    nav a:hover {
-      background-color: #0077b6;
-    }
-    .name{
-        color: rgb(67, 231, 222);
-        margin-right: 500px;
-        text-align:left;
-        font-size: 25px;
-    }
-  </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-</head>
-<body>
-    <nav>
-        <span class="name">
-        Employee Promotion Predection
-    </span>
-    <a href="{{ url_for('home') }}">Home</a>
-    <a href="{{ url_for('about') }}">About</a>
-    <a href="{{ url_for('submit') }}">Submit</a>
-    <a href="{{ url_for('predict') }}">Predict</a>
-      </nav>
-  <header>
-
-    <h1>Welcome to our Machine Learning Platform</h1>
-    <p>Unlock the power of AI and data-driven insights.</p>
-    <a href="predict.html" class="cta-button">Get Started</a>
+{% extends 'base.html' %}
+{% block title %}PromoPredict Pro - AI-Powered Employee Promotion Prediction{% endblock %}
+{% block content %}
+  <header class="hero">
+    <h1>Transform Your HR Decisions with AI</h1>
+    <p>PromoPredict Pro uses advanced machine learning to predict employee promotion eligibility with 89% accuracy. Make data-driven decisions that boost retention and employee satisfaction.</p>
+    <div class="hero-buttons">
+      <a href="{{ url_for('predict') }}" class="btn-primary">
+        <i class="fas fa-rocket"></i> Start Predicting
+      </a>
+      <a href="#pricing" class="btn">
+        <i class="fas fa-tags"></i> View Pricing
+      </a>
+    </div>
   </header>
 
-  <div class="features">
+  <section class="features">
     <div class="feature-card">
-      <i class="fas fa-chart-line"></i>
-      <h3>Predictive Analytics</h3>
-      <p>Leverage machine learning to make accurate predictions and gain valuable insights.</p>
+      <i class="fas fa-brain"></i>
+      <h3>AI-Powered Predictions</h3>
+      <p>Advanced machine learning algorithms analyze multiple factors to predict promotion likelihood with high accuracy.</p>
     </div>
     <div class="feature-card">
-      <i class="fas fa-cogs"></i>
-      <h3>Automated Workflows</h3>
-      <p>Streamline your processes with intelligent automation and data-driven decision-making.</p>
+      <i class="fas fa-chart-bar"></i>
+      <h3>Comprehensive Analytics</h3>
+      <p>Detailed insights into key factors influencing promotion decisions and employee performance metrics.</p>
     </div>
     <div class="feature-card">
-      <i class="fas fa-graduation-cap"></i>
-      <h3>Continuous Learning</h3>
-      <p>Stay ahead of the curve with our platform's ability to adapt and learn over time.</p>
+      <i class="fas fa-history"></i>
+      <h3>Prediction History</h3>
+      <p>Track all your predictions with detailed input data and outcomes for continuous improvement.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-code"></i>
+      <h3>API Integration</h3>
+      <p>Seamlessly integrate predictions into your existing HR systems with our RESTful API.</p>
     </div>
     <div class="feature-card">
       <i class="fas fa-shield-alt"></i>
-      <h3>Robust Security</h3>
-      <p>Protect your data and ensure privacy with our advanced security measures.</p>
+      <h3>Enterprise Security</h3>
+      <p>Bank-level security with encrypted data transmission and secure model deployment.</p>
     </div>
     <div class="feature-card">
-        <i class="fas fa-comments"></i>
-        <h3>Conversational AI</h3>
-        <p>Engage with your customers through natural language interactions and intelligent chatbots.</p>
+      <i class="fas fa-users"></i>
+      <h3>Team Collaboration</h3>
+      <p>Share predictions with team members and collaborate on employee development strategies.</p>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing">
+    <h2>Choose Your Plan</h2>
+    <p>Start with our free tier and scale as your organization grows</p>
+    
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Starter</h3>
+        <div class="price">$0<small>/month</small></div>
+        <ul>
+          <li>Up to 50 predictions/month</li>
+          <li>Basic analytics</li>
+          <li>Email support</li>
+          <li>Standard accuracy (89%)</li>
+          <li>Web interface only</li>
+        </ul>
+        <a href="{{ url_for('predict') }}" class="btn-primary">Get Started Free</a>
+      </div>
+      
+      <div class="pricing-card featured">
+        <div style="background: #667eea; color: white; padding: 0.5rem; border-radius: 8px; margin-bottom: 1rem; font-weight: 600;">Most Popular</div>
+        <h3>Professional</h3>
+        <div class="price">$99<small>/month</small></div>
+        <ul>
+          <li>Up to 1,000 predictions/month</li>
+          <li>Advanced analytics & reports</li>
+          <li>Priority support</li>
+          <li>Enhanced accuracy (92%)</li>
+          <li>API access</li>
+          <li>Custom integrations</li>
+          <li>Team collaboration</li>
+        </ul>
+        <a href="#" class="btn-primary">Start Free Trial</a>
+      </div>
+      
+      <div class="pricing-card">
+        <h3>Enterprise</h3>
+        <div class="price">$299<small>/month</small></div>
+        <ul>
+          <li>Unlimited predictions</li>
+          <li>Custom model training</li>
+          <li>Dedicated support</li>
+          <li>Premium accuracy (95%)</li>
+          <li>Full API access</li>
+          <li>White-label solution</li>
+          <li>On-premise deployment</li>
+          <li>SLA guarantee</li>
+        </ul>
+        <a href="#" class="btn-primary">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">
+      <i class="fas fa-trophy"></i>
+      Why Choose PromoPredict Pro?
+    </h2>
+    
+    <div class="features">
+      <div class="feature-card">
+        <i class="fas fa-percentage"></i>
+        <h3>89% Accuracy</h3>
+        <p>Our machine learning model achieves industry-leading accuracy in promotion prediction.</p>
       </div>
       <div class="feature-card">
-        <i class="fas fa-area-chart"></i>
-        <h3>Actionable Insights</h3>
-        <p>Gain valuable insights from your data and make informed, data-driven decisions.</p>
+        <i class="fas fa-clock"></i>
+        <h3>Instant Results</h3>
+        <p>Get predictions in seconds, not days. No more waiting for manual HR reviews.</p>
       </div>
-</body> 
-</html>
+      <div class="feature-card">
+        <i class="fas fa-dollar-sign"></i>
+        <h3>Cost Effective</h3>
+        <p>Reduce HR overhead and make better decisions that improve employee retention.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="card" style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+      <h2 style="margin-bottom: 1rem;">Ready to Transform Your HR Process?</h2>
+      <p style="margin-bottom: 2rem; font-size: 1.2rem;">Join hundreds of companies already using PromoPredict Pro to make better promotion decisions.</p>
+      <a href="{{ url_for('predict') }}" class="btn" style="background: white; color: #667eea;">
+        <i class="fas fa-play"></i> Start Your Free Trial
+      </a>
+    </div>
+  </section>
+{% endblock %}

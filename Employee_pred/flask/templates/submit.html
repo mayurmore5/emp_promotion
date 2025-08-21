@@ -1,93 +1,265 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: url('https://static.vecteezy.com/system/resources/previews/013/286/213/non_2x/goals-achievement-and-business-success-human-improvement-personal-growth-and-challenge-rises-up-stairs-to-target-checklist-and-step-of-arrow-with-wooden-figure-human-ladder-up-to-goal-flag-photo.jpg') no-repeat center center fixed; 
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-            color: #000000;
-        }
-        nav {
-            background-color: rgba(42, 20, 71, 0.8);
-            padding: 20px;
-            font-size: 17px;
-            text-align: right;
-            animation: navbarFadeIn 1s ease-in-out;
-        }
-
-        @keyframes navbarFadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        nav a {
-            color: rgb(206, 220, 217);
-            text-decoration: none;
-            padding: 10px 20px;
-            margin: 0 10px;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        nav a:hover {
-            background-color: #0077b6;
-        }
-
-        .name {
-            color: rgb(208, 210, 210);
-            margin-right: 500px;
-            text-align: left;
-            font-size: 25px;
-        }
-
-        .container {
-            padding: 20px;
-            text-align: center;
-            color:rgb(1, 1, 1);
-            background-color: rgba(90, 6, 100, 0.8);
-            margin: 50px auto;
-            border-radius: 10px;
-            width: 50%;
-        }
-
-        h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 18px;
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <span class="name">
-            Employee Promotion Prediction
-        </span>
-        <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('about') }}">About</a>
-            <a href="{{ url_for('submit') }}">Submit</a>
-            <a href="{{ url_for('predict') }}">Predict</a>
-    </nav>
-  
-    <div class="container">
-        <h1>Prediction Results</h1>
-        <p>Your prediction results will be displayed here.</p>
-        <center>
-            <p style="color:black"> <b> {{data}} </b> </p>
-            </center>
+{% extends 'base.html' %}
+{% block title %}AI Analysis Report • PromoPredict Pro{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="result">
+      <div style="margin-bottom: 2rem;">
+        <i class="fas fa-chart-line" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.8;"></i>
+        <h1>AI Analysis Complete</h1>
+      </div>
+      
+      <div class="result-message">
+        {% if data and 'eligible' in data.lower() %}
+          <i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i>
+        {% else %}
+          <i class="fas fa-info-circle" style="color: #f59e0b; margin-right: 0.5rem;"></i>
+        {% endif %}
+        {{ data }}
+      </div>
+      
+      {% if probability is not none %}
+        <div class="result-prob">
+          <i class="fas fa-percentage"></i>
+          Confidence Level: {{ '%.1f' % (probability * 100) }}%
+        </div>
+        
+        <div style="margin: 2rem 0;">
+          <div style="background: rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 1rem; margin: 1rem 0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Promotion Likelihood</span>
+              <span>{{ '%.1f' % (probability * 100) }}%</span>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.3); border-radius: 5px; height: 8px; overflow: hidden;">
+              <div style="background: white; height: 100%; width: {{ '%.1f' % (probability * 100) }}%; transition: width 1s ease;"></div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      
+      <div class="actions">
+        <a class="btn" href="{{ url_for('predict') }}">
+          <i class="fas fa-plus"></i> New Analysis
+        </a>
+        <a class="btn" href="{{ url_for('history') }}">
+          <i class="fas fa-history"></i> View History
+        </a>
+        <a class="btn" href="{{ url_for('home') }}">
+          <i class="fas fa-home"></i> Back to Home
+        </a>
+      </div>
     </div>
-</body>
-</html>
+
+    {% if gemini_analysis %}
+      <!-- AI Analysis Report -->
+      <div class="card" style="margin-top: 2rem;">
+        <h2 style="color: #667eea; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fas fa-brain"></i> AI-Powered Analysis Report
+        </h2>
+        
+        {% if gemini_analysis.key_insights %}
+          <!-- Key Insights -->
+          <div style="margin-bottom: 2rem;">
+            <h3 style="color: #333; margin-bottom: 1rem;">
+              <i class="fas fa-chart-bar"></i> Performance Metrics
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+              <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem; border-radius: 12px; text-align: center;">
+                <div style="font-size: 2rem; font-weight: bold;">{{ gemini_analysis.key_insights.performance_score }}</div>
+                <div style="font-size: 0.9rem;">Performance Score</div>
+              </div>
+              <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 12px; text-align: center;">
+                <div style="font-size: 2rem; font-weight: bold;">{{ gemini_analysis.key_insights.promotion_readiness }}</div>
+                <div style="font-size: 0.9rem;">Readiness Score</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Strengths & Weaknesses -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+            <div>
+              <h3 style="color: #10b981; margin-bottom: 1rem;">
+                <i class="fas fa-thumbs-up"></i> Key Strengths
+              </h3>
+              {% if gemini_analysis.key_insights.strengths %}
+                <ul style="list-style: none; padding: 0;">
+                  {% for strength in gemini_analysis.key_insights.strengths %}
+                    <li style="padding: 0.5rem 0; color: #333; display: flex; align-items: center; gap: 0.5rem;">
+                      <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                      {{ strength }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p style="color: #666; font-style: italic;">No specific strengths identified</p>
+              {% endif %}
+            </div>
+            
+            <div>
+              <h3 style="color: #ef4444; margin-bottom: 1rem;">
+                <i class="fas fa-exclamation-triangle"></i> Areas for Improvement
+              </h3>
+              {% if gemini_analysis.key_insights.weaknesses %}
+                <ul style="list-style: none; padding: 0;">
+                  {% for weakness in gemini_analysis.key_insights.weaknesses %}
+                    <li style="padding: 0.5rem 0; color: #333; display: flex; align-items: center; gap: 0.5rem;">
+                      <i class="fas fa-times-circle" style="color: #ef4444;"></i>
+                      {{ weakness }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p style="color: #666; font-style: italic;">No major areas for improvement identified</p>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Immediate Actions -->
+          {% if gemini_analysis.key_insights.immediate_actions %}
+            <div style="margin-bottom: 2rem;">
+              <h3 style="color: #f59e0b; margin-bottom: 1rem;">
+                <i class="fas fa-bolt"></i> Immediate Actions Required
+              </h3>
+              <div style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 8px;">
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                  {% for action in gemini_analysis.key_insights.immediate_actions %}
+                    <li style="padding: 0.5rem 0; color: #333; display: flex; align-items: center; gap: 0.5rem;">
+                      <i class="fas fa-arrow-right" style="color: #f59e0b;"></i>
+                      {{ action }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+        {% endif %}
+
+        <!-- Detailed AI Analysis -->
+        {% if gemini_analysis.detailed_analysis %}
+          <div style="margin-bottom: 2rem;">
+            <h3 style="color: #333; margin-bottom: 1rem;">
+              <i class="fas fa-file-alt"></i> Detailed Analysis
+            </h3>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; line-height: 1.6;">
+              <div style="white-space: pre-line; color: #333;">{{ gemini_analysis.detailed_analysis }}</div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if improvement_plan %}
+      <!-- Improvement Plan -->
+      <div class="card" style="margin-top: 2rem;">
+        <h2 style="color: #667eea; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fas fa-road"></i> Career Development Roadmap
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+          <!-- Short Term -->
+          <div style="border: 2px solid #10b981; border-radius: 12px; padding: 1.5rem;">
+            <h3 style="color: #10b981; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fas fa-clock"></i> Short Term ({{ improvement_plan.short_term.timeline }})
+            </h3>
+            {% if improvement_plan.short_term.goals %}
+              <h4 style="color: #333; margin-bottom: 0.5rem;">Goals:</h4>
+              <ul style="list-style: none; padding: 0; margin-bottom: 1rem;">
+                {% for goal in improvement_plan.short_term.goals %}
+                  <li style="padding: 0.3rem 0; color: #333; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-bullseye" style="color: #10b981;"></i>
+                    {{ goal }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% if improvement_plan.short_term.actions %}
+              <h4 style="color: #333; margin-bottom: 0.5rem;">Actions:</h4>
+              <ul style="list-style: none; padding: 0;">
+                {% for action in improvement_plan.short_term.actions %}
+                  <li style="padding: 0.3rem 0; color: #666; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-arrow-right" style="color: #10b981;"></i>
+                    {{ action }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <!-- Medium Term -->
+          <div style="border: 2px solid #f59e0b; border-radius: 12px; padding: 1.5rem;">
+            <h3 style="color: #f59e0b; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fas fa-calendar-alt"></i> Medium Term ({{ improvement_plan.medium_term.timeline }})
+            </h3>
+            {% if improvement_plan.medium_term.goals %}
+              <h4 style="color: #333; margin-bottom: 0.5rem;">Goals:</h4>
+              <ul style="list-style: none; padding: 0; margin-bottom: 1rem;">
+                {% for goal in improvement_plan.medium_term.goals %}
+                  <li style="padding: 0.3rem 0; color: #333; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-bullseye" style="color: #f59e0b;"></i>
+                    {{ goal }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% if improvement_plan.medium_term.actions %}
+              <h4 style="color: #333; margin-bottom: 0.5rem;">Actions:</h4>
+              <ul style="list-style: none; padding: 0;">
+                {% for action in improvement_plan.medium_term.actions %}
+                  <li style="padding: 0.3rem 0; color: #666; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-arrow-right" style="color: #f59e0b;"></i>
+                    {{ action }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <!-- Long Term -->
+          <div style="border: 2px solid #667eea; border-radius: 12px; padding: 1.5rem;">
+            <h3 style="color: #667eea; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fas fa-rocket"></i> Long Term ({{ improvement_plan.long_term.timeline }})
+            </h3>
+            {% if improvement_plan.long_term.goals %}
+              <h4 style="color: #333; margin-bottom: 0.5rem;">Goals:</h4>
+              <ul style="list-style: none; padding: 0; margin-bottom: 1rem;">
+                {% for goal in improvement_plan.long_term.goals %}
+                  <li style="padding: 0.3rem 0; color: #333; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-bullseye" style="color: #667eea;"></i>
+                    {{ goal }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% if improvement_plan.long_term.actions %}
+              <h4 style="color: #333; margin-bottom: 0.5rem;">Actions:</h4>
+              <ul style="list-style: none; padding: 0;">
+                {% for action in improvement_plan.long_term.actions %}
+                  <li style="padding: 0.3rem 0; color: #666; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-arrow-right" style="color: #667eea;"></i>
+                    {{ action }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="card" style="margin-top: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+      <h3 style="margin-bottom: 1rem;">
+        <i class="fas fa-rocket"></i> Ready to Take Action?
+      </h3>
+      <p style="margin-bottom: 1.5rem; opacity: 0.9;">
+        Use this detailed analysis to create a personalized development plan and track your progress toward promotion.
+      </p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="{{ url_for('predict') }}" class="btn" style="background: white; color: #667eea;">
+          <i class="fas fa-plus"></i> Analyze Another Employee
+        </a>
+        <a href="{{ url_for('history') }}" class="btn" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3);">
+          <i class="fas fa-history"></i> View All Analyses
+        </a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

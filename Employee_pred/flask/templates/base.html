@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Employee Promotion Prediction{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="{{ url_for('home') }}" class="brand">
+        <i class="fas fa-chart-line"></i>
+        PromoPredict
+      </a>
+      <div class="nav-links">
+        <a href="{{ url_for('home') }}" class="{{ 'active' if request.endpoint == 'home' else '' }}">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="{{ url_for('predict') }}" class="{{ 'active' if request.endpoint == 'predict' else '' }}">
+          <i class="fas fa-magic"></i> Predict
+        </a>
+        <a href="{{ url_for('history') }}" class="{{ 'active' if request.endpoint == 'history' else '' }}">
+          <i class="fas fa-history"></i> History
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for message in messages %}
+          <div class="flash">
+            <i class="fas fa-exclamation-triangle"></i>
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main class="page">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2024 PromoPredict Built by <i class="fas fa-heart" style="color: #ff6b6b;"></i> Mayur More</p>
+      <div class="footer-links">
+        <a href="{{ url_for('health') }}">Health Check</a>
+        <span>•</span>
+        <a href="mailto:support@promopredict.com">Support</a>
+        <span>•</span>
+        <a href="#privacy">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Add smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Add loading states to forms
+    document.querySelectorAll('form').forEach(form => {
+      form.addEventListener('submit', function() {
+        const submitBtn = this.querySelector('button[type="submit"]');
+        if (submitBtn) {
+          submitBtn.innerHTML = '<span class="loading"></span> Processing...';
+          submitBtn.disabled = true;
+        }
+      });
+    });
+
+    // Add active navigation highlighting
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>
+
+

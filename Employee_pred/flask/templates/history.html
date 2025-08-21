@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %}Analysis History • PromoPredict Pro{% endblock %}
+{% block content %}
+  <section class="section">
+    <h1 class="section-title">
+      <i class="fas fa-history"></i> AI Analysis History
+    </h1>
+    <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+      Review all your employee promotion analyses and insights
+    </p>
+    
+    {% if history %}
+      <div class="history-list">
+        {% for item in history|reverse %}
+          <div class="card history-item">
+            <div class="history-header">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <span class="tag">
+                  {% if item.prediction == 1 %}
+                    <i class="fas fa-check-circle"></i> Eligible
+                  {% else %}
+                    <i class="fas fa-times-circle"></i> Not Eligible
+                  {% endif %}
+                </span>
+                {% if item.probability is not none %}
+                  <span class="prob">
+                    <i class="fas fa-percentage"></i> {{ '%.1f' % (item.probability * 100) }}%
+                  </span>
+                {% endif %}
+              </div>
+              <div style="color: #666; font-size: 0.9rem;">
+                {{ item.department }}
+              </div>
+            </div>
+            
+            <div class="history-grid">
+              <div><strong>Trainings</strong>: {{ item.inputs.num_of_training }}</div>
+              <div><strong>Rating</strong>: {{ item.inputs.pre_yr_rating }}/5</div>
+              <div><strong>Service</strong>: {{ item.inputs.len_of_service }}y</div>
+              <div><strong>KPI Met</strong>: {{ 'Yes' if item.inputs.kpi else 'No' }}</div>
+              <div><strong>Awards</strong>: {{ 'Yes' if item.inputs.award else 'No' }}</div>
+              <div><strong>Training Score</strong>: {{ item.inputs.avg_training_score }}/100</div>
+            </div>
+
+            {% if item.gemini_analysis and item.gemini_analysis.key_insights %}
+              <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(102, 126, 234, 0.1);">
+                <h4 style="color: #667eea; margin-bottom: 1rem;">
+                  <i class="fas fa-chart-bar"></i> Performance Insights
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                  <div style="background: rgba(102, 126, 234, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                    <div style="font-weight: bold; color: #667eea;">{{ item.gemini_analysis.key_insights.performance_score }}</div>
+                    <div style="font-size: 0.8rem; color: #666;">Performance</div>
+                  </div>
+                  <div style="background: rgba(16, 185, 129, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                    <div style="font-weight: bold; color: #10b981;">{{ item.gemini_analysis.key_insights.promotion_readiness }}</div>
+                    <div style="font-size: 0.8rem; color: #666;">Readiness</div>
+                  </div>
+                </div>
+                
+                {% if item.gemini_analysis.key_insights.strengths %}
+                  <div style="margin-bottom: 1rem;">
+                    <h5 style="color: #10b981; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                      <i class="fas fa-thumbs-up"></i> Key Strengths
+                    </h5>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                      {% for strength in item.gemini_analysis.key_insights.strengths[:3] %}
+                        <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">
+                          {{ strength }}
+                        </span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+                
+                {% if item.gemini_analysis.key_insights.weaknesses %}
+                  <div>
+                    <h5 style="color: #ef4444; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                      <i class="fas fa-exclamation-triangle"></i> Areas to Improve
+                    </h5>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                      {% for weakness in item.gemini_analysis.key_insights.weaknesses[:3] %}
+                        <span style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">
+                          {{ weakness }}
+                        </span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+
+            {% if item.improvement_plan %}
+              <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(102, 126, 234, 0.1);">
+                <h4 style="color: #667eea; margin-bottom: 1rem;">
+                  <i class="fas fa-road"></i> Development Plan
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                  {% if item.improvement_plan.short_term.goals %}
+                    <div style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #10b981;">
+                      <h5 style="color: #10b981; margin-bottom: 0.5rem; font-size: 0.9rem;">Short Term</h5>
+                      <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.8rem;">
+                        {% for goal in item.improvement_plan.short_term.goals[:2] %}
+                          <li style="padding: 0.2rem 0; color: #666;">• {{ goal }}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+                  
+                  {% if item.improvement_plan.medium_term.goals %}
+                    <div style="background: rgba(245, 158, 11, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                      <h5 style="color: #f59e0b; margin-bottom: 0.5rem; font-size: 0.9rem;">Medium Term</h5>
+                      <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.8rem;">
+                        {% for goal in item.improvement_plan.medium_term.goals[:2] %}
+                          <li style="padding: 0.2rem 0; color: #666;">• {{ goal }}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="card" style="text-align: center; padding: 3rem;">
+        <i class="fas fa-history" style="font-size: 4rem; color: #667eea; margin-bottom: 1rem; opacity: 0.5;"></i>
+        <h3 style="color: #333; margin-bottom: 1rem;">No Analyses Yet</h3>
+        <p style="color: #666; margin-bottom: 2rem;">
+          Start your first employee promotion analysis to see detailed insights and recommendations.
+        </p>
+        <a href="{{ url_for('predict') }}" class="btn-primary">
+          <i class="fas fa-plus"></i> Start First Analysis
+        </a>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}
+
+
